@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">NaviGT</string>
+    <string name="explanation">Tap device with NFC tag</string>
 </resources>
