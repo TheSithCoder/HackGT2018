@@ -26,9 +26,38 @@ router.get("/:nfcID",function(req,res){
         if(err){
             res.status(500).send("DB Error")
         }
-        res.status(200).send(result);
+        res.status(200).send(getUsableResponse(result));
     })
 })
+
+router.get("/", function(req,res){
+    User.find({}).populate("services").exec(function(err,result){
+        if(err){
+            res.status(500).send("DB Error")
+        }
+        aVariable = []; //DON'T CHANGE NAME, CODE WILL BREAK
+        result.forEach(function(elem){
+            console.log(typeof(aVariable));
+            aVariable.push(getUsableResponse(elem));
+        })
+        res.status(200).send(aVariable);
+    })
+})
+
+function getUsableResponse(user) {
+    response = {};
+    response.id = user.id;
+    response.nfcID = user.nfcID;
+    response.name = user.name;
+    response.services = [];
+    user.services.forEach(function(elem){
+        aService = {};
+        aService.id = elem.id;
+        aService.name = elem.name;
+        response.services.push(aService);
+    })
+    return response;
+}
 
 
 module.exports = router;
