@@ -6,16 +6,17 @@ var express = require("express");
 var router = express.Router();
 
 router.post("/", function(req,res){
-    var request = new ServiceRequest();
-    console.log(req.body);
-    request.user = mongoose.Types.ObjectId(req.body.user);
-    request.location = mongoose.Types.ObjectId(req.body.location);
+    User.findOne({"nfcID":req.body.nfcID}, function(err,docs){
+        var request = new ServiceRequest();
+        request.user = mongoose.Types.ObjectId(docs.id);
+        request.location = mongoose.Types.ObjectId(req.body.location);
 
-    request.save(function(err){
-        if(err){
-            res.status(500).send("DB error")
-        }
-        res.status(200).send("Sucessfully added request")
+        request.save(function(err){
+            if(err){
+                res.status(500).send("DB error")
+            }
+            res.status(200).send("Sucessfully added request")
+        })
     })
 })
 
@@ -25,21 +26,22 @@ router.get("/", function(req,res){
         .populate("location")
         .exec(function(err,docs){
         if(err){
-            console.log(err);
             res.status(500).send("DB Error")
         }else {
             response = [];
             docs.forEach(function(request){
-                var requestResponse = {};
+               var requestResponse = {};
                 requestResponse.id = request.id;
 
                 //fix the user subset
                 requestResponse.user = {};
-                requestResponse.user.services = [];
+                requestResponse.user.services = Array();
+                debugger;
                 request.user.services.forEach(function(elem){
                     var newElem = {};
                     newElem.id = elem.id;
                     newElem.name = elem.name;
+                
                     requestResponse.user.services.push(newElem)
                 })
                 requestResponse.user.id = request.user.id;
