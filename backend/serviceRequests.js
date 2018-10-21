@@ -6,7 +6,7 @@ var express = require("express");
 var router = express.Router();
 
 router.post("/", function(req,res){
-    console.log(req.body);
+    console.log("serviceRequests" + JSON.stringify(req));
     User.findOne({"nfcID":req.body.nfcID}, function(err,docs){
         var request = new ServiceRequest();
         request.user = mongoose.Types.ObjectId(docs.id);

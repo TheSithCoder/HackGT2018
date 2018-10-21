@@ -10,7 +10,6 @@ router.post("/", function(req,res){
     var user = new User();
     user.nfcID = req.body.nfcID;
     user.name = req.body.name;
-    console.log(req.body.services);
     req.body.services.forEach(function(service) {
         user.services.push(mongoose.Types.ObjectId(service))
     })
@@ -38,7 +37,6 @@ router.get("/", function(req,res){
         }
         aVariable = []; //DON'T CHANGE NAME, CODE WILL BREAK
         result.forEach(function(elem){
-            console.log(typeof(aVariable));
             aVariable.push(getUsableResponse(elem));
         })
         res.status(200).send(aVariable);
