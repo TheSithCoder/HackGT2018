@@ -4,6 +4,7 @@ var Service = require("./models").service;
 var express = require("express");
 var router = express.Router();
 
+
 //TODO add nfc id
 router.post("/", function(req,res){
     var user = new User();
