@@ -11,8 +11,8 @@ os.system("clear")
 while True:
 	response = requests.get("https://unique-aloe-220018.appspot.com/api/serviceRequests")
 	data = json.loads(response.text)
+	shouldCare = False
 	for request in data:
-		shouldCare = False
 		for service in request['user']['services']:
 			if service['name'].upper() == strToCmp:
 				shouldCare = True
@@ -27,5 +27,8 @@ while True:
 				requiredServices = requiredServices + " " + service["name"]
 			print "Services: " + requiredServices
 			print "\n\n"
-	time.sleep(3)
+		time.sleep(10)
+		requests.get("https://unique-aloe-220018.appspot.com/api/serviceRequests/clear")
+	else:
+		time.sleep(3)
 	os.system("clear")

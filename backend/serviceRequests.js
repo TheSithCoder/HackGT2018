@@ -59,4 +59,13 @@ router.get("/", function(req,res){
     })
 })
 
+router.get('/clear', function(req,res){
+    ServiceRequest.deleteMany({},function(err){
+        if(err){
+            res.status(500).send("DB Error")
+        }
+        res.status(200).send("records clear")
+    })
+})
+
 module.exports = router;
